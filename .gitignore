@@ -1,4 +1,9 @@
-.aider*
 .aider.chat.history.md
 .aider.input.history
 .aider*
+node_modules/
+dist/
+build/
+vendor/
+.env
+*.log
