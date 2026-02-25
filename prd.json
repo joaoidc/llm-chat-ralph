@@ -1,0 +1,129 @@
+{
+  "project": "LLM Chat Platform",
+  "branchName": "ralph/llm-chat",
+  "description": "AI-powered customer support chat with vector database and knowledge ingestion.",
+  "testCommand": "npm run test",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Initialize NestJS backend",
+      "description": "Create base NestJS backend structure.",
+      "acceptanceCriteria": [
+        "Backend folder contains NestJS app",
+        "App runs with npm run start",
+        "Basic health endpoint exists"
+      ],
+      "priority": 1,
+      "passes": false
+    },
+    {
+      "id": "US-002",
+      "title": "Initialize Nuxt frontend",
+      "description": "Create Nuxt 3 frontend structure.",
+      "acceptanceCriteria": [
+        "Frontend folder contains Nuxt app",
+        "App runs with npm run dev",
+        "Landing page exists"
+      ],
+      "priority": 2,
+      "passes": false
+    },
+    {
+      "id": "US-003",
+      "title": "Create vector database service",
+      "description": "Implement vector storage using PostgreSQL + pgvector or similar.",
+      "acceptanceCriteria": [
+        "Documents can be stored with embeddings",
+        "Embeddings stored in vector column",
+        "Similarity search works"
+      ],
+      "priority": 3,
+      "passes": false
+    },
+    {
+      "id": "US-004",
+      "title": "Document ingestion endpoint",
+      "description": "Create endpoint to upload product knowledge.",
+      "acceptanceCriteria": [
+        "POST /documents stores text",
+        "Text is chunked",
+        "Embeddings generated"
+      ],
+      "priority": 4,
+      "passes": false
+    },
+    {
+      "id": "US-005",
+      "title": "LLM integration",
+      "description": "Connect Ollama LLM to backend.",
+      "acceptanceCriteria": [
+        "Backend calls LLM",
+        "LLM answers user questions",
+        "LLM uses retrieved context"
+      ],
+      "priority": 5,
+      "passes": false
+    },
+    {
+      "id": "US-006",
+      "title": "Semantic search pipeline",
+      "description": "Implement retrieval-augmented generation (RAG).",
+      "acceptanceCriteria": [
+        "User question is embedded",
+        "Similar documents retrieved",
+        "Context sent to LLM"
+      ],
+      "priority": 6,
+      "passes": false
+    },
+    {
+      "id": "US-007",
+      "title": "Chat API",
+      "description": "Create chat endpoint.",
+      "acceptanceCriteria": [
+        "POST /chat returns response",
+        "Chat stores history",
+        "Uses vector search"
+      ],
+      "priority": 7,
+      "passes": false
+    },
+    {
+      "id": "US-008",
+      "title": "Frontend chat UI",
+      "description": "Create chat interface in Nuxt.",
+      "acceptanceCriteria": [
+        "User can type question",
+        "Response displayed",
+        "Loading state exists"
+      ],
+      "priority": 8,
+      "passes": false
+    },
+    {
+      "id": "US-009",
+      "title": "Admin ingestion UI",
+      "description": "Create UI to upload documents.",
+      "acceptanceCriteria": [
+        "Admin page exists",
+        "Text upload form",
+        "Documents saved"
+      ],
+      "priority": 9,
+      "passes": false
+    },
+    {
+      "id": "US-010",
+      "title": "Authentication",
+      "description": "Add JWT authentication.",
+      "acceptanceCriteria": [
+        "Users can login",
+        "Protected routes",
+        "Admin role"
+      ],
+      "priority": 10,
+      "passes": false
+    }
+  ]
+
+}
