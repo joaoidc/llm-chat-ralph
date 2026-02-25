@@ -103,7 +103,7 @@ for i in $(seq 1 $MAX_ITERATIONS); do
     -name "~" \
   \) -delete 2>/dev/null || true
 
-  # Unstage arquivos aider
+  # Unstage e remover arquivos aider do tracking
   git restore --staged .aider.chat.history.md 2>/dev/null || true
   git restore --staged .aider.input.history 2>/dev/null || true
 
@@ -116,16 +116,21 @@ for i in $(seq 1 $MAX_ITERATIONS); do
     echo "Story $STORY_ID marked as complete."
   fi
 
-  # Commitar apenas arquivos reais (sem lixo e sem aider)
-  CHANGED_FILES=$(git status --porcelain | grep -v '.aider' | grep -v '^?? ---' | grep -v '^?? }' | grep -v '^?? .~' | awk '{print $2}')
+  # Commitar tudo exceto arquivos aider
+  git add -A
+  git reset HEAD .aider.chat.history.md 2>/dev/null || true
+  git reset HEAD .aider.input.history 2>/dev/null || true
+  git reset HEAD "---" 2>/dev/null || true
+  git reset HEAD "}" 2>/dev/null || true
+  git reset HEAD "})" 2>/dev/null || true
+  git reset HEAD ".~" 2>/dev/null || true
 
-  if [ -n "$CHANGED_FILES" ]; then
+  if git diff --cached --quiet; then
+    echo "No meaningful code changes detected for iteration $i."
+  else
     echo "Changes detected. Committing..."
-    echo "$CHANGED_FILES" | xargs git add
     git commit -m "ralph($STORY_ID): $(echo "$STORY_DESC" | cut -c1-60)"
     git push origin main
-  else
-    echo "No meaningful code changes detected for iteration $i."
   fi
 
   echo "Iteration $i complete."
