@@ -38,7 +38,7 @@
         "Similarity search works"
       ],
       "priority": 3,
-      "passes": false
+      "passes": true
     },
     {
       "id": "US-004",
