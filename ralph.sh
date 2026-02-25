@@ -43,6 +43,9 @@ vendor/
 *.log
 GITIGNORE
 
+# Limpar arquivos lixo do repo se existirem
+git rm "---" "}" "})" ".~" "~" 2>/dev/null || true
+
 echo "Starting Ralph - Tool: $TOOL - Max iterations: $MAX_ITERATIONS"
 
 for i in $(seq 1 $MAX_ITERATIONS); do
@@ -64,7 +67,7 @@ for i in $(seq 1 $MAX_ITERATIONS); do
   echo "Working on story ID: $STORY_ID"
   echo "Description: $STORY_DESC"
 
-  # Coletar apenas arquivos de código reais
+  # Coletar apenas arquivos com extensão válida
   FILES=$(find . -type f \( \
     -name "*.ts" -o \
     -name "*.tsx" -o \
@@ -79,6 +82,7 @@ for i in $(seq 1 $MAX_ITERATIONS); do
     | grep -v dist \
     | grep -v build \
     | grep -v vendor \
+    | grep -E "\.[a-z]+$" \
     | head -40 \
     | tr '\n' ' ')
 
@@ -103,10 +107,6 @@ for i in $(seq 1 $MAX_ITERATIONS); do
     -name "~" \
   \) -delete 2>/dev/null || true
 
-  # Unstage e remover arquivos aider do tracking
-  git restore --staged .aider.chat.history.md 2>/dev/null || true
-  git restore --staged .aider.input.history 2>/dev/null || true
-
   # Verificar se story foi marcada como completa
   PASSES=$(jq -r --arg id "$STORY_ID" '.userStories | map(select(.id == $id)) | .[0].passes' prd.json)
 
@@ -116,7 +116,7 @@ for i in $(seq 1 $MAX_ITERATIONS); do
     echo "Story $STORY_ID marked as complete."
   fi
 
-  # Commitar tudo exceto arquivos aider
+  # Commitar tudo exceto arquivos aider e lixo
   git add -A
   git reset HEAD .aider.chat.history.md 2>/dev/null || true
   git reset HEAD .aider.input.history 2>/dev/null || true
