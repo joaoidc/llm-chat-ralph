@@ -1,0 +1,18 @@
+{
+  "name": "nuxt-frontend",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt dev",
+    "build": "nuxt build",
+    "preview": "nuxt preview",
+    "lint": "nuxt lint"
+  },
+  "dependencies": {
+    "nuxt": "3.0.0",
+    "nuxt-axios": "0.3.0"
+  },
+  "devDependencies": {
+    "@nuxtjs/axios": "0.3.0"
+  }
+}

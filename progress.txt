@@ -1,0 +1,28 @@
+## Codebase Patterns
+- NestJS projects use src/ directory for source code
+- Controllers are placed in src/controllers/ directory
+- AppModule is the root module in src/app.module.ts
+- Main entry point is src/main.ts
+- TypeScript configuration uses ESNext module resolution
+
+## 2023-10-15T14:30:00Z - US-001
+Thread: https://ampcode.com/threads/$AMP_CURRENT_THREAD_ID
+- What was implemented: Created basic NestJS backend structure with health endpoint
+- Files changed: 
+  - backend/src/main.ts
+  - backend/src/app.module.ts
+  - backend/src/controllers/health.controller.ts
+  - backend/package.json
+  - backend/tsconfig.json
+- **Learnings for future iterations:**
+  - Patterns discovered: 
+    - NestJS projects follow specific folder structure conventions
+    - Controllers should be organized in src/controllers/
+    - AppModule is the root module for the application
+  - Gotchas encountered: 
+    - Need to make sure TypeScript configuration is correctly set up
+    - Ensure proper module imports in AppModule
+  - Useful context: 
+    - The health endpoint is available at /health
+    - The application runs on port 3000 by default
+---

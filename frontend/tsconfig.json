@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "preserve",
+    "sourceMap": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "outDir": "./dist",
+    "baseUrl": ".",
+    "types": ["nuxt", "vue"]
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
+}
