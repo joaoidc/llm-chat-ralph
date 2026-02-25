@@ -2,9 +2,11 @@ import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HealthController } from './controllers/health.controller';
 import { DocumentController } from './controllers/document.controller';
+import { ChatController } from './controllers/chat.controller';
 import { DocumentEntity } from './entities/document.entity';
 import { DocumentService } from './services/document.service';
 import { LlmService } from './services/llm.service';
+import { ChatService } from './services/chat.service';
 
 @Module({
   imports: [
@@ -24,7 +26,7 @@ import { LlmService } from './services/llm.service';
       },
     }),
   ],
-  controllers: [HealthController, DocumentController],
-  providers: [DocumentService, LlmService, DocumentEntity],
+  controllers: [HealthController, DocumentController, ChatController],
+  providers: [DocumentService, LlmService, ChatService, DocumentEntity],
 })
 export class AppModule {}

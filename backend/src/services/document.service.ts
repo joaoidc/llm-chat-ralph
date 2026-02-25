@@ -26,6 +26,15 @@ export class DocumentService {
     return await this.documentRepository.save(document);
   }
 
+  async findSimilarDocuments(embedding: number[]): Promise<DocumentEntity[]> {
+    return this.documentRepository
+      .createQueryBuilder('document')
+      .orderBy('document.embedding <-> :embedding', 'ASC')
+      .setParameter('embedding', embedding)
+      .take(5)
+      .getMany();
+  }
+
   private chunkText(text: string, chunkSize: number): string[] {
     const chunks = [];
     for (let i = 0; i < text.length; i += chunkSize) {
