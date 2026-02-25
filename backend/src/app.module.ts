@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { HealthController } from './controllers/health.controller';
+import { DocumentController } from './controllers/document.controller';
 import { DocumentEntity } from './entities/document.entity';
+import { DocumentService } from './services/document.service';
 
 @Module({
   imports: [
@@ -21,7 +23,7 @@ import { DocumentEntity } from './entities/document.entity';
       },
     }),
   ],
-  controllers: [HealthController],
-  providers: [DocumentEntity],
+  controllers: [HealthController, DocumentController],
+  providers: [DocumentService, DocumentEntity],
 })
 export class AppModule {}
