@@ -1,5 +1,5 @@
 <template>
-  <div class="upload-container">
+  <div class="upload-container" v-if="isAdmin">
     <h1>Upload Document</h1>
     <form @submit.prevent="uploadDocument" class="upload-form">
       <textarea
@@ -17,16 +17,35 @@
     <div v-if="successMessage" class="success-message">{{ successMessage }}</div>
     <div v-if="errorMessage" class="error-message">{{ errorMessage }}</div>
   </div>
+  <div v-else>
+    <p>You are not authorized to access this page.</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const documentText = ref('');
 const loading = ref(false);
 const successMessage = ref('');
 const errorMessage = ref('');
+const isAdmin = ref(false);
+
+onMounted(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    axios.get('http://localhost:3000/auth/me', {
+      headers: { Authorization: `Bearer ${token}` }
+    }).then(response => {
+      isAdmin.value = response.data.role === 'admin';
+    }).catch(() => {
+      isAdmin.value = false;
+    });
+  } else {
+    isAdmin.value = false;
+  }
+});
 
 const uploadDocument = async () => {
   if (!documentText.value.trim()) {
@@ -39,7 +58,10 @@ const uploadDocument = async () => {
     errorMessage.value = '';
     successMessage.value = '';
 
-    const response = await axios.post('http://localhost:3000/documents', { text: documentText.value });
+    const token = localStorage.getItem('token');
+    const response = await axios.post('http://localhost:3000/documents', { text: documentText.value }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
     successMessage.value = 'Document uploaded successfully!';
     documentText.value = '';
   } catch (err) {

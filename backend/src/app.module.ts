@@ -7,9 +7,21 @@ import { DocumentEntity } from './entities/document.entity';
 import { DocumentService } from './services/document.service';
 import { LlmService } from './services/llm.service';
 import { ChatService } from './services/chat.service';
+import { UserEntity } from './entities/user.entity';
+import { UserService } from './services/user.service';
+import { AuthController } from './controllers/auth.controller';
+import { PassportModule } from '@nestjs/passport';
+import { JwtModule } from '@nestjs/jwt';
+import { JwtStrategy } from './strategies/jwt.strategy';
+import { AuthGuard } from './guards/auth.guard';
 
 @Module({
   imports: [
+    PassportModule,
+    JwtModule.register({
+      secret: 'your_jwt_secret_key',
+      signOptions: { expiresIn: '1h' },
+    }),
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -26,7 +38,7 @@ import { ChatService } from './services/chat.service';
       },
     }),
   ],
-  controllers: [HealthController, DocumentController, ChatController],
-  providers: [DocumentService, LlmService, ChatService, DocumentEntity],
+  controllers: [HealthController, DocumentController, ChatController, AuthController],
+  providers: [DocumentService, LlmService, ChatService, UserService, JwtStrategy, AuthGuard],
 })
 export class AppModule {}

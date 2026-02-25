@@ -1,5 +1,5 @@
 <template>
-  <div class="chat-container">
+  <div class="chat-container" v-if="isLoggedIn">
     <h1>Chat with AI</h1>
     <div class="messages" v-if="messages.length > 0">
       <div v-for="(message, index) in messages" :key="index" class="message">
@@ -21,10 +21,13 @@
     <div v-if="loading" class="loading">Loading response...</div>
     <div v-if="error" class="error">{{ error }}</div>
   </div>
+  <div v-else>
+    <p>Please <router-link to="/login">login</router-link> to chat.</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import axios from 'axios';
 
 const question = ref('');
@@ -32,6 +35,16 @@ const answer = ref('');
 const loading = ref(false);
 const error = ref('');
 const messages = ref<Array<{ question: string; answer: string }>>([]);
+const isLoggedIn = ref(false);
+
+onMounted(() => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    isLoggedIn.value = true;
+  } else {
+    isLoggedIn.value = false;
+  }
+});
 
 const sendMessage = async () => {
   if (!question.value.trim()) return;
@@ -40,7 +53,10 @@ const sendMessage = async () => {
     loading.value = true;
     error.value = '';
 
-    const response = await axios.post('http://localhost:3000/chat', { question: question.value });
+    const token = localStorage.getItem('token');
+    const response = await axios.post('http://localhost:3000/chat', { question: question.value }, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
     const newAnswer = response.data.answer;
 
     messages.value.push({ question: question.value, answer: newAnswer });
