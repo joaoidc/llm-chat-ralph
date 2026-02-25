@@ -4,6 +4,7 @@ import { HealthController } from './controllers/health.controller';
 import { DocumentController } from './controllers/document.controller';
 import { DocumentEntity } from './entities/document.entity';
 import { DocumentService } from './services/document.service';
+import { LlmService } from './services/llm.service';
 
 @Module({
   imports: [
@@ -24,6 +25,6 @@ import { DocumentService } from './services/document.service';
     }),
   ],
   controllers: [HealthController, DocumentController],
-  providers: [DocumentService, DocumentEntity],
+  providers: [DocumentService, LlmService, DocumentEntity],
 })
 export class AppModule {}
